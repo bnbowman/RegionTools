@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 import argparse, h5py, os, sys
-from BarcodeAnalysis._version import __version__
+from RegionTools._version import __version__
 
 __author__ = "Brett Bowman"
 
@@ -37,8 +37,8 @@ def parseOptions():
     basics.add_argument(
         "referenceFasta",
         type=canonicalizedFilePath,
-        metavar="REFERENCE_FASTA"
-        help="The reference sequences"
+        metavar="REFERENCE_FASTA",
+        help="The reference sequences of interest in FASTA format")
     basics.add_argument(
         "basH5Fofn",
         type=canonicalizedFilePath,
@@ -50,6 +50,12 @@ def parseOptions():
         default=os.path.join(os.getcwd(), "output.csv"),
         metavar="CSV",
         help="The filename of the CSV to output barcode scoring data to.")
+    basics.add_argument(
+        "-m", "--minSize",
+        type=int,
+        default=3,
+        metavar="INT",
+        help="The minimum size of a homopolymer context to record")
 
     debugging = parser.add_argument_group("Verbosity and debugging/profiling")
     debugging.add_argument("--help", "-h",
@@ -81,7 +87,7 @@ def parseOptions():
 
     parser.parse_args(namespace=options)
 
-    for path in (options.inputFilename, options.barcodeFilename):
+    for path in (options.cmpH5Filename, options.referenceFasta, options.basH5Fofn):
         if path is not None:
             checkInputFile(path)
 

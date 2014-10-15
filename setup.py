@@ -25,7 +25,7 @@ else:
 
 # Run Setup
 setup(
-    name = 'BarcodeAnalysis',
+    name = 'RegionTools',
     version=_ReadVersion,
     author='Brett Bowman',
     author_email='bbowman@pacificbiosciences.com',
